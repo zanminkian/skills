@@ -67,6 +67,7 @@ Nobody is happy with the name. There is an open suggestion to rename it `grill-d
 
 - `GLOSSARY.md` changes *during* the session, term by term, rather than appearing in one lump at the end.
 - The glossary reads as pure vocabulary (your project's words with tight definitions) and contains no implementation detail or spec-like prose.
+- When it goes looking in the codebase, that finishes before the next round arrives, so what it found shapes the questions and the recommendations.
 - Questions the codebase can answer get answered by reading the codebase, not asked of you.
 - You get few or no ADRs, and the ones you get are decisions you would be annoyed to have to argue again.
 - It challenges a word you used because your existing glossary defines it differently.
