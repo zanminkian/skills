@@ -26,7 +26,7 @@ The **design tree** is the model of the subject: decisions with decisions hangin
 
 Inside a round every question arrives in a fixed shape: numbered and titled behind a `❓`, then the body, then the agent's recommended answer alone on a `➡️` line. That is what makes a round answerable by number ("1 yes, 2 the second option, 3 no, here's why") instead of by quoting questions back. The format has one known rough edge: the recommendation sometimes argues *against* the question as it was worded, so agreeing with the recommendation means answering "no" to the question. When that happens, answer the recommendation and say so.
 
-The other half of the design is the split between facts and decisions. Facts are the skill's own job: when a frontier question needs something the [environment](https://www.aihero.dev/ai-coding-dictionary/environment) can settle, it dispatches a [sub-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) to go and find out rather than asking you. It does not block on that; only the questions downstream of a running exploration wait. Decisions are yours, and it must wait for them. An agent running `grilling` that answers its own decisions has broken the skill, not interpreted it liberally. The session ends when the frontier is empty, and it will not act on what you agreed until you confirm you have reached a shared understanding.
+The other half of the design is the split between facts and decisions. Facts are the skill's own job: when a frontier question needs something the [environment](https://www.aihero.dev/ai-coding-dictionary/environment) can settle, it dispatches a [sub-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) to go and find out rather than asking you. Every exploration sub-agent finishes and its findings are incorporated before the skill presents the first or next round of questions. Decisions are yours, and it must wait for them. An agent running `grilling` that answers its own decisions has broken the skill, not interpreted it liberally. The session ends when the frontier is empty, and it will not act on what you agreed until you confirm you have reached a shared understanding.
 
 The honest limit: the frontier is the agent's judgement, not a computed graph. It can put two questions in one round and only afterwards discover that one answer should have changed the other. There is no guard against that beyond telling it, which reopens the affected branch in the next round.
 
@@ -78,7 +78,7 @@ A real and unfixed rough edge, reported across [harnesses](https://www.aihero.de
 - Nothing in a round needs another question in the same round answered first.
 - Later rounds ask things the first round could not have asked.
 - It goes and looks facts up (reading files, dispatching a sub-agent) rather than asking you something it could have found out.
-- Research running in the background does not stall the round; only the questions that depend on it wait.
+- A question round appears only after every exploration sub-agent has returned and its findings have been incorporated.
 - It stops at the end and asks you to confirm the understanding is shared, instead of starting work.
 - Question count stays high while round count stays low.
 
